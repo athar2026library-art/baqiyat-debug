@@ -1,20 +1,39 @@
-# تحسينات تم تطبيقها على المستودع
+# تحسينات الحزمة وFCM
 
-**التاريخ:** 25 أكتوبر 2026
+**التاريخ:** 25 أكتوبر 2026  
+**الفرع:** `fix/package-align-com-baqiyat-azkar`
 
-## 1. إصلاح عدم تطابق الحزمة (Package Mismatch)
+## ما تم رفعه على الفرع
 
-- نقل كل المصدر من `com.example` إلى `com.baqiyat.azkar`
-- تحديث package / import / AndroidManifest / docs
-- تنظيف google-services.json من عميل com.example الزائد
+- `IMPROVEMENTS.md`
+- `app/google-services.json` منظّف من عميل `com.example`
+- `app/src/main/AndroidManifest.xml` محدّث بأسماء الحزمة الجديدة
+- `AzkarApplication.kt` + مثبّتي App Check (debug/release)
+- سكربت `scripts/complete-package-rename.sh`
 
-## 2. تحسين تخزين توكنات FCM
+## لإكمال النقل الكامل (مرة واحدة)
 
-استخدام `FieldValue.arrayUnion(token)` بدل استبدال القائمة كاملة.
+```bash
+git fetch origin
+git checkout fix/package-align-com-baqiyat-azkar
+bash scripts/complete-package-rename.sh
+git add -A
+git commit -m "fix: complete package rename to com.baqiyat.azkar"
+git push
+```
 
-## الخطوات التالية
+أو إذا كنت على main:
 
-1. `./gradlew :app:assembleDebug`
-2. اختبار Google Sign-In + FCM على جهاز
-3. إنشاء `admins/{uid}` بأول مشرف
-4. `firebase deploy --only firestore:rules,firestore:indexes,storage`
+```bash
+git checkout -b fix/package-align-com-baqiyat-azkar
+bash scripts/complete-package-rename.sh
+git add -A
+git commit -m "fix: complete package rename to com.baqiyat.azkar"
+git push -u origin fix/package-align-com-baqiyat-azkar
+```
+
+## بعد الدمج
+
+```bash
+./gradlew :app:assembleDebug
+```
